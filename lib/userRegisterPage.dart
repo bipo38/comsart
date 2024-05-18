@@ -1,53 +1,31 @@
 import 'package:comsart/auth.dart';
-import 'package:comsart/registerOptionPage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter_lucide/flutter_lucide.dart' as lucide;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-// void main() {
-// }
-
-Future main() async {
-  await dotenv.load(fileName: ".env");
-
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class UserRegisterPage extends StatefulWidget {
+  const UserRegisterPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return ShadApp(
-      darkTheme: ShadThemeData(
-          brightness: Brightness.dark,
-          colorScheme: const ShadSlateColorScheme.light()),
-      home: const HomePage(),
-    );
-  }
+  State<UserRegisterPage> createState() => _UserRegisterPageState();
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class _UserRegisterPageState extends State<UserRegisterPage> {
   final emailController = TextEditingController();
+  final nameController = TextEditingController();
   final passwordController = TextEditingController();
+  final passwordConfirmationController = TextEditingController();
 
   Map<Object, dynamic> formValue = {};
   final formKey = GlobalKey<ShadFormState>();
-  var loginSuccess = 0;
+  var registerSuccess = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Text('User Register'),
       ),
       body: Center(
         child: Column(
@@ -72,6 +50,19 @@ class _HomePageState extends State<HomePage> {
                           },
                         ),
                         ShadInputFormField(
+                          controller: nameController,
+                          label: const Text('Name'),
+                          keyboardType: TextInputType.name,
+                          description:
+                              const Text('We recommend using the artist name.'),
+                          validator: (v) {
+                            if (v.isEmpty) {
+                              return 'Name is required';
+                            }
+                            return null;
+                          },
+                        ),
+                        ShadInputFormField(
                           controller: passwordController,
                           label: const Text('Password'),
                           keyboardType: TextInputType.visiblePassword,
@@ -80,6 +71,22 @@ class _HomePageState extends State<HomePage> {
                               return 'Password is required';
                             }
 
+                            if (passwordController.text !=
+                                passwordConfirmationController.text) {
+                              return 'Password and Password Confirmation must be the same';
+                            }
+
+                            return null;
+                          },
+                        ),
+                        ShadInputFormField(
+                          controller: passwordConfirmationController,
+                          label: const Text('Password Confirmation'),
+                          keyboardType: TextInputType.visiblePassword,
+                          validator: (v) {
+                            if (v.isEmpty) {
+                              return 'Password Confirmation is required';
+                            }
                             return null;
                           },
                         ),
@@ -87,42 +94,32 @@ class _HomePageState extends State<HomePage> {
                     ))),
             Column(
               children: [
-                //have account text make it clickable
-                ShadButton.link(
-                  text: const Text('Already have an account? Login here.'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const RegisterOptionScreen()),
-                    );
-                  },
-                ),
                 ShadButton(
                   onPressed: () async {
                     if (formKey.currentState!.saveAndValidate()) {
-                      var response = await AuthMethods().loginLaravel(
-                        emailController.text,
-                        passwordController.text,
-                      );
+                      var response = await AuthMethods().registerLaravel(
+                          nameController.text,
+                          emailController.text,
+                          passwordController.text,
+                          passwordConfirmationController.text,
+                          'user');
 
                       if (response['body']['token'] != null) {
                         setState(() {
-                          loginSuccess = 1;
+                          registerSuccess = 1;
                         });
 
-                        // Navigator.pop(context);
+                        Navigator.pop(context);
                       } else {
                         setState(() {
-                          loginSuccess = 2;
+                          registerSuccess = 2;
                         });
                       }
                     }
                   },
-                  text: const Text('Login'),
+                  text: const Text('Register'),
                   hoverBackgroundColor: Colors.blue[700],
                   backgroundColor: Colors.blue,
-                  width: 300,
                   icon: const Padding(
                     padding: EdgeInsets.only(right: 10),
                     child: Icon(
@@ -131,11 +128,11 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                if (loginSuccess == 1)
-                  const Text('Login successful!',
+                if (registerSuccess == 1)
+                  const Text('Registration successful!',
                       style: TextStyle(color: Colors.green))
-                else if (loginSuccess == 2)
-                  const Text('Login failed!',
+                else if (registerSuccess == 2)
+                  const Text('Registration failed!',
                       style: TextStyle(color: Colors.red))
               ],
             ),
