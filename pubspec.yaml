@@ -41,6 +41,7 @@ dependencies:
   flutter_lucide: ^1.1.2
   shared_preferences: ^2.2.3
   flutter_dotenv: ^5.1.0
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -62,12 +63,11 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-  fonts:
-    - family: Twitter
-      fonts:
-        - asset: fonts/Twitter.ttf
+
   assets:
     - .env
+    - assets/
+    - assets/img/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

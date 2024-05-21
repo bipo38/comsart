@@ -1,12 +1,12 @@
 import 'package:comsart/auth.dart';
-import 'package:comsart/registerOptionPage.dart';
+import 'package:comsart/register/emailPage.dart';
+import 'package:comsart/register/registerOptionPage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter_lucide/flutter_lucide.dart' as lucide;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
-// void main() {
-// }
+import 'package:google_fonts/google_fonts.dart';
 
 Future main() async {
   await dotenv.load(fileName: ".env");
@@ -21,8 +21,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ShadApp(
       darkTheme: ShadThemeData(
+          textTheme: ShadTextTheme.fromGoogleFont(
+            GoogleFonts.poppins,
+            colorScheme: const ShadZincColorScheme.light(),
+          ),
           brightness: Brightness.dark,
-          colorScheme: const ShadSlateColorScheme.light()),
+          colorScheme: const ShadSlateColorScheme.light(
+            background: Color(0xFFf8fafc),
+          )),
       home: const HomePage(),
     );
   }
@@ -43,15 +49,21 @@ class _HomePageState extends State<HomePage> {
   final formKey = GlobalKey<ShadFormState>();
   var loginSuccess = 0;
 
+  final primaryColor = const Color(0xFFdd4c4f);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        // title: const Text('Comsart'),
+        centerTitle: true,
+        backgroundColor: const Color(0xFFf8fafc),
       ),
       body: Center(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            const Image(image: AssetImage('assets/img/logo.png'), width: 200),
             ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 320),
                 child: ShadForm(
@@ -88,15 +100,29 @@ class _HomePageState extends State<HomePage> {
             Column(
               children: [
                 //have account text make it clickable
-                ShadButton.link(
-                  text: const Text('Already have an account? Login here.'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const RegisterOptionScreen()),
-                    );
-                  },
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      style: TextStyle(
+                        color: Color(0xFF6c757d),
+                      ),
+                      'Don\'t have an account? ',
+                      textAlign: TextAlign.center,
+                    ),
+                    ShadButton.link(
+                      padding: const EdgeInsets.all(0),
+                      text: const Text('Login here.'),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const EmailPage()),
+                        );
+                      },
+                    ),
+                  ],
                 ),
                 ShadButton(
                   onPressed: () async {
@@ -119,9 +145,9 @@ class _HomePageState extends State<HomePage> {
                       }
                     }
                   },
-                  text: const Text('Login'),
-                  hoverBackgroundColor: Colors.blue[700],
-                  backgroundColor: Colors.blue,
+                  text: const Text('Sign in'),
+                  hoverBackgroundColor: const Color(0xFFe74c3c),
+                  backgroundColor: primaryColor,
                   width: 300,
                   icon: const Padding(
                     padding: EdgeInsets.only(right: 10),

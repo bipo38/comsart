@@ -12,7 +12,6 @@ class AuthMethods {
     try {
       var url = Uri.parse('$url_api/api/auth/register');
 
-      print(url);
       var response = await http.post(url, body: {
         'name': name,
         'email': email,
