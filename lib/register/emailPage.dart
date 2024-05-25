@@ -1,3 +1,4 @@
+import 'package:comsart/auth.dart';
 import 'package:comsart/register/registerOptionPage.dart';
 import 'package:comsart/register/registerStore.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,8 @@ class _EmailPageState extends State<EmailPage> {
   final emailController = TextEditingController();
 
   final formKey = GlobalKey<ShadFormState>();
+  var isEmailRepeat = false;
+  var emailCheckVerifyMsg = '';
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +53,21 @@ class _EmailPageState extends State<EmailPage> {
                     },
                   ),
                   ShadButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (formKey.currentState!.validate()) {
+                        var response = await AuthMethods().checkEmail(emailController.text);
+
+                        if(response['ok'] == false){
+                          setState(() {
+                            emailCheckVerifyMsg = response['message'];
+                            isEmailRepeat = true;
+                          });
+                          return;
+                        }
                         RegisterStore().setEmail(emailController.text);
+                       setState(() {
+                          isEmailRepeat = false;
+                       });
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -68,6 +83,8 @@ class _EmailPageState extends State<EmailPage> {
                 ]),
               ),
             ),
+            if(isEmailRepeat)  Text( emailCheckVerifyMsg , style: const TextStyle(color: Colors.red),),
+            
           ],
         ),
       ),

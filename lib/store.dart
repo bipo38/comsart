@@ -46,7 +46,7 @@ class Store {
     return role == 'user';
   }
 
-  Future<String> isVerify() async {
+  Future<String> getVerify() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('verify')!;
   }

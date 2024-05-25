@@ -85,8 +85,9 @@ class _PasswordPageState extends State<PasswordPage> {
 
                         if (!mounted) return;
 
+
                         if (response) {
-                          navigator.pop();
+                            navigator.pushNamed('/home');
                         }
                       }
                     },

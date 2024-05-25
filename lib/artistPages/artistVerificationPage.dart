@@ -1,7 +1,9 @@
 import 'package:comsart/auth.dart';
+import 'package:comsart/store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
+
 
 import 'package:twitter_login/twitter_login.dart';
 
@@ -13,7 +15,28 @@ class ArtistVerificationPage extends StatefulWidget {
 }
 
 class _ArtistVerificationPageState extends State<ArtistVerificationPage> {
-  final popoverController = ShadPopoverController();
+ final popoverController = ShadPopoverController();
+
+  var failedLogin = 0;
+  String message = '';
+  String verify = '';
+
+  @override
+  void initState()  {
+    super.initState();
+    _checkVerify();
+  }
+
+  Future<void> _checkVerify() async {
+    final getVerify = await Store().getVerify();
+
+
+    setState(() {
+      verify = getVerify;
+
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +125,6 @@ class _ArtistVerificationPageState extends State<ArtistVerificationPage> {
                   final identifier = dotenv.env['TWITTER_API_KEY']!;
                   final secret = dotenv.env['TWITTER_API_KEY_SECRET']!;
 
-              
 
                   final twitterLogin = TwitterLogin(
                     // Consumer API keys
@@ -113,7 +135,42 @@ class _ArtistVerificationPageState extends State<ArtistVerificationPage> {
                     redirectURI: 'comsart://',
                   );
                   final authResult = await twitterLogin.login();
-                  print(authResult.status);
+                  final status = authResult.status;
+
+                  if(TwitterLoginStatus.cancelledByUser == status || TwitterLoginStatus.error == status){
+                   setState(() {
+                      message = 'Something went wrong.';
+                      failedLogin = 2;
+                    });
+                    return;
+                  }
+
+                  if(TwitterLoginStatus.loggedIn == status){
+                     final twitterData = {
+                    'twitter_email': authResult.user?.email,
+                    'twitter_name': authResult.user?.name,
+                    'twitter_nickname': authResult.user?.screenName,
+                  };
+                  
+                  var response = await AuthMethods().verifyArtistTwitter(
+                    twitterData['twitter_email']! ,
+                    twitterData['twitter_name']!,
+                    twitterData['twitter_nickname']!,
+                  );
+
+                  if (response['ok'] == false) {
+                    message = response['message'];
+                    setState(() {
+                      failedLogin = 2;
+                    });
+                    return;
+                  } 
+                  setState(() {
+                    message = response['message'];
+                    failedLogin = 1;
+                  });
+
+                  } 
                  
                 },
                 text: const Text('Verify your account'),
@@ -127,7 +184,31 @@ class _ArtistVerificationPageState extends State<ArtistVerificationPage> {
                 hoverBackgroundColor: const Color.fromARGB(255, 20, 107, 161),
                 backgroundColor: const Color(0xFF1DA1F2),
                 width: 300,
+                enabled:  failedLogin == 1 || verify == 'pending' ? false : true,
               ),
+              
+            ),
+            Center(
+              child: Column(children: [
+                if (failedLogin == 1 || verify == 'pending')
+               const Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: Text(
+                  'We get your account, please wait for the approval.Thank you! :)',
+                  style: TextStyle(color: Colors.green),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            if (failedLogin == 2)
+               Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(
+                   message,
+                  style: const TextStyle(color: Colors.red),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              ],),
             )
           ],
         ),

@@ -10,9 +10,11 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter_lucide/flutter_lucide.dart' as lucide;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future main() async {
   await dotenv.load(fileName: ".env");
+ SharedPreferences prefs = await SharedPreferences.getInstance();
 
   runApp(const MyApp());
 }
