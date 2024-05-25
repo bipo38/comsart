@@ -1,6 +1,9 @@
+import 'package:comsart/artistPages/artistProfilePage.dart';
+import 'package:comsart/artistPages/artistVerificationPage.dart';
 import 'package:comsart/auth.dart';
 import 'package:comsart/register/emailPage.dart';
 import 'package:comsart/register/registerOptionPage.dart';
+import 'package:comsart/userPages/homePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
@@ -23,13 +26,17 @@ class MyApp extends StatelessWidget {
       darkTheme: ShadThemeData(
           textTheme: ShadTextTheme.fromGoogleFont(
             GoogleFonts.poppins,
-            colorScheme: const ShadZincColorScheme.light(),
           ),
           brightness: Brightness.dark,
           colorScheme: const ShadSlateColorScheme.light(
             background: Color(0xFFf8fafc),
           )),
-      home: const HomePage(),
+      routes: {
+        '/': (context) => const HomePage(),
+        '/profile': (context) => const ArtistProfilePage(),
+        '/home': (context) => const HomePageUser(),
+        '/verify': (context) => const ArtistVerificationPage(),
+      },
     );
   }
 }
@@ -132,10 +139,16 @@ class _HomePageState extends State<HomePage> {
                         passwordController.text,
                       );
 
-                      if (response['body']['token'] != null) {
+                      if (response) {
                         setState(() {
                           loginSuccess = 1;
                         });
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePageUser()),
+                        );
 
                         // Navigator.pop(context);
                       } else {

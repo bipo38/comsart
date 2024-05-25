@@ -85,8 +85,7 @@ class _PasswordPageState extends State<PasswordPage> {
 
                         if (!mounted) return;
 
-                        if (response['body']['token'] != null) {
-                          Store().setToken(response['body']['token']);
+                        if (response) {
                           navigator.pop();
                         }
                       }

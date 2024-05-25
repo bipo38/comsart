@@ -46,14 +46,14 @@ class Store {
     return role == 'user';
   }
 
-  Future<bool> isVerify() async {
+  Future<String> isVerify() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('verify')!;
+    return prefs.getString('verify')!;
   }
 
-  Future<bool> setVerify(bool verify) async {
+  Future<bool> setVerify(String verify) async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.setBool('verify', verify);
+    return prefs.setString('verify', verify);
   }
 
   Future<bool> removeVerify() async {
