@@ -53,10 +53,10 @@ class _UsernamePageState extends State<UsernamePage> {
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         RegisterStore().setUsername(usernameController.text);
-                        Navigator.push(
+                        Navigator.pushNamed(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => const PasswordPage()));
+                            '/profileImage'
+                           );
                       }
 
                       

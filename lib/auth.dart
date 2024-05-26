@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:comsart/store.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -9,23 +10,25 @@ class AuthMethods {
   final url_api = dotenv.env['API_URL'];
 
   Future<bool> registerLaravel(String name, String email, String password,
-      String password_confirmation, String role) async {
+      String password_confirmation, String role , File profileImage) async {
     var url = Uri.parse('$url_api/api/auth/register');
 
-    var response = await http.post(url, body: {
-      'name': name,
-      'email': email,
-      'password': password,
-      'role': role,
-      'password_confirmation': password_confirmation,
-    }, headers: {
-      'Accept': 'application/json',
-    });
+    var request = http.MultipartRequest('POST', url)
+      ..fields['name'] = name
+      ..fields['email'] = email
+      ..fields['password'] = password
+      ..fields['role'] = role
+      ..fields['password_confirmation'] = password_confirmation
+      ..files.add(await http.MultipartFile.fromPath('profile_image', profileImage.path));
+
+     final response = await request.send();
+     final responseData = await response.stream.bytesToString();
+
 
     if (response.statusCode == 201) {
-      Store().setToken(jsonDecode(response.body)['token']);
-      Store().setRole(jsonDecode(response.body)['role']);
-      Store().setVerify(jsonDecode(response.body)['verify']);
+      Store().setToken(jsonDecode(responseData)['token']);
+      Store().setRole(jsonDecode(responseData)['role']);
+      Store().setVerify(jsonDecode(responseData)['verify']);
 
       return true;
     }
@@ -111,5 +114,31 @@ class AuthMethods {
       'ok': false,
       'message': 'An error occurred'
     };
+  }
+
+  Future<dynamic> getUser() async {
+    
+    var url = Uri.parse('$url_api/api/user');
+
+    var response = await http.get(url,
+        headers: {
+          'Accept': 'application/json ',
+          'Authorization': 'Bearer ${ await Store().getToken()}',
+        });
+
+      var data = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      return {
+        'ok': true,
+        'data':  data,
+      };
+    }
+
+    return {
+      'ok': false,
+      'data': 'An error occurred'
+    };
+
   }
 }

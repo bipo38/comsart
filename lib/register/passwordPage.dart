@@ -81,7 +81,9 @@ class _PasswordPageState extends State<PasswordPage> {
                             await RegisterStore().getEmail(),
                             await RegisterStore().getPassword(),
                             await RegisterStore().getConfirmPassword(),
-                            await RegisterStore().getRole());
+                            await RegisterStore().getRole(),
+                            await RegisterStore().getProfileImage()
+                            );
 
                         if (!mounted) return;
 

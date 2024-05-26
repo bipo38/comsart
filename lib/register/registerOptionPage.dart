@@ -44,10 +44,7 @@ class _RegisterOptionScreenState extends State<RegisterOptionScreen> {
             ),
             onPressed: () {
               RegisterStore().setRole('user');
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const UsernamePage()),
-              );
+              Navigator.pushNamed(context, '/username');
             },
           ),
           const Padding(padding: EdgeInsets.only(bottom: 10)),
@@ -66,9 +63,9 @@ class _RegisterOptionScreenState extends State<RegisterOptionScreen> {
             onPressed: () {
               RegisterStore().setRole('artist');
 
-              Navigator.push(
+              Navigator.pushNamed(
                 context,
-                MaterialPageRoute(builder: (context) => const UsernamePage()),
+                '/username'
               );
             },
           ),

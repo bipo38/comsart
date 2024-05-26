@@ -24,19 +24,25 @@ class _ArtistVerificationPageState extends State<ArtistVerificationPage> {
   @override
   void initState()  {
     super.initState();
+    _checkRole();
     _checkVerify();
+  }
+
+  Future<void> _checkRole() async {
+    final role = await Store().getRole();
+
+    if(role != 'artist'){
+      Navigator.pushNamed(context, '/home');
+    } 
   }
 
   Future<void> _checkVerify() async {
     final getVerify = await Store().getVerify();
 
-
     setState(() {
       verify = getVerify;
-
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -87,9 +93,8 @@ class _ArtistVerificationPageState extends State<ArtistVerificationPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            
             Center(
-                // child: Icon(LucideIcons.badgeCheck,
-                //     size: 200, color: Color.fromARGB(68, 181, 181, 182)),
                 child:
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               Text(
@@ -120,11 +125,8 @@ class _ArtistVerificationPageState extends State<ArtistVerificationPage> {
             Center(
               child: ShadButton(
                 onPressed: () async {
-
-
                   final identifier = dotenv.env['TWITTER_API_KEY']!;
                   final secret = dotenv.env['TWITTER_API_KEY_SECRET']!;
-
 
                   final twitterLogin = TwitterLogin(
                     // Consumer API keys
@@ -134,6 +136,7 @@ class _ArtistVerificationPageState extends State<ArtistVerificationPage> {
                    
                     redirectURI: 'comsart://',
                   );
+
                   final authResult = await twitterLogin.login();
                   final status = authResult.status;
 
@@ -184,7 +187,7 @@ class _ArtistVerificationPageState extends State<ArtistVerificationPage> {
                 hoverBackgroundColor: const Color.fromARGB(255, 20, 107, 161),
                 backgroundColor: const Color(0xFF1DA1F2),
                 width: 300,
-                enabled:  failedLogin == 1 || verify == 'pending' ? false : true,
+                enabled: verify == 'pending' || failedLogin == 1    ? false : true,
               ),
               
             ),

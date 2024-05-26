@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterStore {
@@ -49,5 +51,15 @@ class RegisterStore {
   Future<bool> setUsername(String username) async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.setString('username', username);
+  }
+
+  Future<File> getProfileImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return File(prefs.getString('image')!);
+  }
+
+  Future<bool> setProfileImage(File image) async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.setString('image', image.path);
   }
 }

@@ -2,7 +2,10 @@ import 'package:comsart/artistPages/artistProfilePage.dart';
 import 'package:comsart/artistPages/artistVerificationPage.dart';
 import 'package:comsart/auth.dart';
 import 'package:comsart/register/emailPage.dart';
+import 'package:comsart/register/passwordPage.dart';
+import 'package:comsart/register/profileImagePage.dart';
 import 'package:comsart/register/registerOptionPage.dart';
+import 'package:comsart/register/usernamePage.dart';
 import 'package:comsart/userPages/homePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -10,13 +13,12 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter_lucide/flutter_lucide.dart' as lucide;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Future main() async {
   await dotenv.load(fileName: ".env");
- SharedPreferences prefs = await SharedPreferences.getInstance();
 
   runApp(const MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
@@ -38,6 +40,11 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => const ArtistProfilePage(),
         '/home': (context) => const HomePageUser(),
         '/verify': (context) => const ArtistVerificationPage(),
+        '/profileImage': (context) => const ProfileImagePage(),
+        '/email': (context) => const EmailPage(),
+        '/registerOption': (context) => const RegisterOptionScreen(),
+        '/password': (context) => const PasswordPage(),
+        '/username': (context) => const UsernamePage(),
       },
     );
   }
@@ -122,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     ShadButton.link(
                       padding: const EdgeInsets.all(0),
-                      text: const Text('Login here.'),
+                      text: const Text('Sign up.'),
                       onPressed: () {
                         Navigator.push(
                           context,

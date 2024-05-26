@@ -68,11 +68,7 @@ class _EmailPageState extends State<EmailPage> {
                        setState(() {
                           isEmailRepeat = false;
                        });
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const RegisterOptionScreen()));
+                        Navigator.pushNamed(context, '/registerOption');
                       }
                     },
                     text: const Text('Continue'),
