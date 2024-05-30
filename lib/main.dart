@@ -1,12 +1,6 @@
-import 'package:comsart/artistPages/artistProfilePage.dart';
-import 'package:comsart/artistPages/artistVerificationPage.dart';
 import 'package:comsart/auth.dart';
 import 'package:comsart/register/emailPage.dart';
-import 'package:comsart/register/passwordPage.dart';
-import 'package:comsart/register/profileImagePage.dart';
-import 'package:comsart/register/registerOptionPage.dart';
-import 'package:comsart/register/usernamePage.dart';
-import 'package:comsart/userPages/homePage.dart';
+import 'package:comsart/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
@@ -18,7 +12,6 @@ Future main() async {
   await dotenv.load(fileName: ".env");
 
   runApp(const MyApp());
-
 }
 
 class MyApp extends StatelessWidget {
@@ -26,7 +19,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShadApp(
+    return ShadApp.router(
       darkTheme: ShadThemeData(
           textTheme: ShadTextTheme.fromGoogleFont(
             GoogleFonts.poppins,
@@ -35,17 +28,7 @@ class MyApp extends StatelessWidget {
           colorScheme: const ShadSlateColorScheme.light(
             background: Color(0xFFf8fafc),
           )),
-      routes: {
-        '/': (context) => const HomePage(),
-        '/profile': (context) => const ArtistProfilePage(),
-        '/home': (context) => const HomePageUser(),
-        '/verify': (context) => const ArtistVerificationPage(),
-        '/profileImage': (context) => const ProfileImagePage(),
-        '/email': (context) => const EmailPage(),
-        '/registerOption': (context) => const RegisterOptionScreen(),
-        '/password': (context) => const PasswordPage(),
-        '/username': (context) => const UsernamePage(),
-      },
+      routerConfig: routerConfig,
     );
   }
 }
@@ -103,6 +86,7 @@ class _HomePageState extends State<HomePage> {
                           controller: passwordController,
                           label: const Text('Password'),
                           keyboardType: TextInputType.visiblePassword,
+                          obscureText: true,
                           validator: (v) {
                             if (v.isEmpty) {
                               return 'Password is required';
@@ -153,11 +137,7 @@ class _HomePageState extends State<HomePage> {
                           loginSuccess = 1;
                         });
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomePageUser()),
-                        );
+                        routerConfig.go('/home');
 
                         // Navigator.pop(context);
                       } else {

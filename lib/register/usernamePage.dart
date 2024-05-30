@@ -1,5 +1,5 @@
-import 'package:comsart/register/passwordPage.dart';
 import 'package:comsart/register/registerStore.dart';
+import 'package:comsart/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
@@ -53,13 +53,8 @@ class _UsernamePageState extends State<UsernamePage> {
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         RegisterStore().setUsername(usernameController.text);
-                        Navigator.pushNamed(
-                            context,
-                            '/profileImage'
-                           );
+                        routerConfig.go('/profileImage');
                       }
-
-                      
                     },
                     text: const Text('Continue'),
                     hoverBackgroundColor: const Color(0xFFe74c3c),

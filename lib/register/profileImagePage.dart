@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:comsart/register/registerStore.dart';
+import 'package:comsart/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:image_picker/image_picker.dart';
@@ -64,15 +65,11 @@ class _ProfileImagePageState extends State<ProfileImagePage> {
                         fit: BoxFit.cover,
                       ),
                     ),
-                  if (_image == null)
-                    const Text('No image selected.'),
+                  if (_image == null) const Text('No image selected.'),
                   const Padding(padding: EdgeInsets.only(bottom: 10)),
                   ShadButton.outline(
                     onPressed: _pickImage,
-                    // foregroundColor: const Color(0xFFdd4c4f),
                     text: const Text('Pick Image from Gallery'),
-                    // hoverBackgroundColor: Color.fromARGB(255, 215, 214, 214),
-                    // backgroundColor: Colors.transparent,
                     decoration: const ShadDecoration(
                       border: ShadBorder(
                         color: Color.fromARGB(62, 152, 151, 151),
@@ -104,7 +101,7 @@ class _ProfileImagePageState extends State<ProfileImagePage> {
 
                       RegisterStore().setProfileImage(_image!);
 
-                      Navigator.pushNamed(context, '/password');
+                      routerConfig.go('/password');
                     },
                     text: const Text('Continue'),
                     hoverBackgroundColor: const Color(0xFFe74c3c),
@@ -124,28 +121,4 @@ class _ProfileImagePageState extends State<ProfileImagePage> {
       ),
     );
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: const Text('Image Picker Example'),
-  //     ),
-  //     body: Center(
-  //       child: Column(
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         children: <Widget>[
-  //           _image == null
-  //               ? const Text('No image selected.')
-  //               : Image.file(_image!),
-  //           const SizedBox(height: 20),
-  //           ElevatedButton(
-  //             onPressed: _pickImage,
-  //             child: const Text('Pick Image from Gallery'),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 }

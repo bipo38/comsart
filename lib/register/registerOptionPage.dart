@@ -1,5 +1,5 @@
 import 'package:comsart/register/registerStore.dart';
-import 'package:comsart/register/usernamePage.dart';
+import 'package:comsart/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
@@ -62,11 +62,7 @@ class _RegisterOptionScreenState extends State<RegisterOptionScreen> {
             ),
             onPressed: () {
               RegisterStore().setRole('artist');
-
-              Navigator.pushNamed(
-                context,
-                '/username'
-              );
+              routerConfig.go('/username');
             },
           ),
         ],

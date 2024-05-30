@@ -1,6 +1,6 @@
 import 'package:comsart/auth.dart';
 import 'package:comsart/register/registerStore.dart';
-import 'package:comsart/store.dart';
+import 'package:comsart/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
@@ -74,22 +74,18 @@ class _PasswordPageState extends State<PasswordPage> {
                         RegisterStore().setConfirmPassword(
                             passwordConfirmationController.text);
 
-                        final navigator = Navigator.of(context);
-
                         var response = await AuthMethods().registerLaravel(
                             await RegisterStore().getUsername(),
                             await RegisterStore().getEmail(),
                             await RegisterStore().getPassword(),
                             await RegisterStore().getConfirmPassword(),
                             await RegisterStore().getRole(),
-                            await RegisterStore().getProfileImage()
-                            );
+                            await RegisterStore().getProfileImage());
 
                         if (!mounted) return;
 
-
                         if (response) {
-                            navigator.pushNamed('/home');
+                          routerConfig.go('/home');
                         }
                       }
                     },

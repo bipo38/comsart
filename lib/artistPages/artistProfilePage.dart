@@ -1,3 +1,5 @@
+import 'package:comsart/Widgets/NavbarArtist.dart';
+import 'package:comsart/routes/router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:comsart/auth.dart';
 import 'package:comsart/store.dart';
@@ -43,7 +45,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
     final getArtist = await AuthMethods().getUser();
 
     if (getArtist['ok'] == false) {
-      Navigator.pushNamed(context, '/login');
+      routerConfig.go('/login');
     }
     setState(() {
       artist = getArtist['data'];
@@ -58,42 +60,9 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
           centerTitle: true,
           backgroundColor: const Color(0xFFf8fafc),
           automaticallyImplyLeading: false),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(LucideIcons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(LucideIcons.brush),
-            label: 'Commissions',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(LucideIcons.user),
-            label: 'Profile',
-          ),
-        ],
-        onTap: (int index) {
-          if (index == 0) {
-            Navigator.popAndPushNamed(context, '/home');
-          } else if (index == 1) {
-            Navigator.popAndPushNamed(context, '/commissions');
-          } else if (index == 2) {
-            Navigator.popAndPushNamed(context, '/profile');
-          }
-        },
-        selectedIconTheme: const IconThemeData(color: Color(0xFFdd4c4f)),
-        selectedItemColor: const Color(0xFFdd4c4f),
-        currentIndex: 2,
-        unselectedIconTheme:
-            const IconThemeData(color: Color.fromARGB(255, 120, 122, 125)),
-        unselectedItemColor: const Color.fromARGB(255, 120, 122, 125),
-        //remove the hover effect
-        showUnselectedLabels: false,
-        showSelectedLabels: false,
-      ),
+      bottomNavigationBar: const NavbarArtist(index: 3),
       body: Container(
-          padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
+          padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
           child: Skeletonizer(
             enabled: artist.isEmpty || _isLoading,
             effect: const ShimmerEffect.ShimmerEffect(
@@ -102,26 +71,29 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(100.0),
-                  child:Skeleton.replace(
-                    width: 170,
-                    height: 170,
-                    child:  Image.network(
-                    '${dotenv.env['API_URL']}/${artist['profile_image']}',
-                    width: 170,
-                    height: 170,
-                    fit: BoxFit.cover,
-                  )),
+                Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100.0),
+                    child: Skeleton.replace(
+                        width: 170,
+                        height: 170,
+                        child: Image.network(
+                          '${dotenv.env['API_URL']}/${artist['profile_image']}',
+                          width: 170,
+                          height: 170,
+                          fit: BoxFit.cover,
+                        )),
+                  ),
                 ),
                 const Padding(padding: EdgeInsets.only(bottom: 15)),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                         style: ShadTheme.of(context).textTheme.h2,
                         artist['name'].toString(),
-                        textAlign: TextAlign.left),
+                        textAlign: TextAlign.center),
                     const Padding(padding: EdgeInsets.only(right: 5)),
                     if (verify == 'approved')
                       const Icon(
@@ -131,7 +103,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                       ),
                   ],
                 ),
-                const Padding(padding: EdgeInsets.only(bottom: 50)),
+                const Padding(padding: EdgeInsets.only(bottom: 20)),
                 Text(
                   'Profile',
                   textAlign: TextAlign.left,
@@ -142,7 +114,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                   splashFactory: NoSplash.splashFactory,
                   highlightColor: Colors.transparent,
                   onTap: () {
-                    Navigator.pushNamed(context, '/verify');
+                    routerConfig.go('/home/profile/verify');
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -158,7 +130,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                             color: Color(0xfffa9c05),
                           ),
                           onPressed: () {
-                            Navigator.pushNamed(context, '/verify');
+                            routerConfig.go('/home/profile/verify');
                           },
                         ),
                       )),
@@ -182,7 +154,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
                             const Color.fromARGB(68, 181, 181, 182),
                         size: ShadButtonSize.icon,
                         onPressed: () {
-                          Navigator.pushNamed(context, '/verify');
+                          routerConfig.go('/home/profile/verify');
                         },
                       )),
                     ],

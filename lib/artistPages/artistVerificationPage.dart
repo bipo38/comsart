@@ -1,9 +1,9 @@
+import 'package:comsart/Widgets/NavbarArtist.dart';
 import 'package:comsart/auth.dart';
 import 'package:comsart/store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-
 
 import 'package:twitter_login/twitter_login.dart';
 
@@ -15,26 +15,26 @@ class ArtistVerificationPage extends StatefulWidget {
 }
 
 class _ArtistVerificationPageState extends State<ArtistVerificationPage> {
- final popoverController = ShadPopoverController();
+  final popoverController = ShadPopoverController();
 
   var failedLogin = 0;
   String message = '';
   String verify = '';
 
   @override
-  void initState()  {
+  void initState() {
     super.initState();
-    _checkRole();
+    // _checkRole();
     _checkVerify();
   }
 
-  Future<void> _checkRole() async {
-    final role = await Store().getRole();
+  // Future<void> _checkRole() async {
+  //   final role = await Store().getRole();
 
-    if(role != 'artist'){
-      Navigator.pushNamed(context, '/home');
-    } 
-  }
+  //   if (role != 'artist') {
+  //     Navigator.pushNamed(context, '/home');
+  //   }
+  // }
 
   Future<void> _checkVerify() async {
     final getVerify = await Store().getVerify();
@@ -53,47 +53,13 @@ class _ArtistVerificationPageState extends State<ArtistVerificationPage> {
         backgroundColor: const Color(0xFFf8fafc),
         // automaticallyImplyLeading: false
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(LucideIcons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(LucideIcons.brush),
-            label: 'Commissions',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(LucideIcons.user),
-            label: 'Profile',
-          ),
-        ],
-        onTap: (int index) {
-          if (index == 0) {
-            Navigator.pushNamed(context, '/home');
-          } else if (index == 1) {
-            Navigator.pushNamed(context, '/commissions');
-          } else if (index == 2) {
-            Navigator.pushNamed(context, '/profile');
-          }
-        },
-        selectedIconTheme: const IconThemeData(color: Color(0xFFdd4c4f)),
-        selectedItemColor: const Color(0xFFdd4c4f),
-        currentIndex: 2,
-        unselectedIconTheme:
-            const IconThemeData(color: Color.fromARGB(255, 120, 122, 125)),
-        unselectedItemColor: const Color.fromARGB(255, 120, 122, 125),
-        //remove the hover effect
-        showUnselectedLabels: false,
-        showSelectedLabels: false,
-      ),
+      bottomNavigationBar: const NavbarArtist(index: 3),
       body: Container(
         padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            
             Center(
                 child:
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -133,48 +99,47 @@ class _ArtistVerificationPageState extends State<ArtistVerificationPage> {
                     apiKey: identifier,
                     // Consumer API Secret keys
                     apiSecretKey: secret,
-                   
+
                     redirectURI: 'comsart://',
                   );
 
                   final authResult = await twitterLogin.login();
                   final status = authResult.status;
 
-                  if(TwitterLoginStatus.cancelledByUser == status || TwitterLoginStatus.error == status){
-                   setState(() {
+                  if (TwitterLoginStatus.cancelledByUser == status ||
+                      TwitterLoginStatus.error == status) {
+                    setState(() {
                       message = 'Something went wrong.';
                       failedLogin = 2;
                     });
                     return;
                   }
 
-                  if(TwitterLoginStatus.loggedIn == status){
-                     final twitterData = {
-                    'twitter_email': authResult.user?.email,
-                    'twitter_name': authResult.user?.name,
-                    'twitter_nickname': authResult.user?.screenName,
-                  };
-                  
-                  var response = await AuthMethods().verifyArtistTwitter(
-                    twitterData['twitter_email']! ,
-                    twitterData['twitter_name']!,
-                    twitterData['twitter_nickname']!,
-                  );
+                  if (TwitterLoginStatus.loggedIn == status) {
+                    final twitterData = {
+                      'twitter_email': authResult.user?.email,
+                      'twitter_name': authResult.user?.name,
+                      'twitter_nickname': authResult.user?.screenName,
+                    };
 
-                  if (response['ok'] == false) {
-                    message = response['message'];
+                    var response = await AuthMethods().verifyArtistTwitter(
+                      twitterData['twitter_email']!,
+                      twitterData['twitter_name']!,
+                      twitterData['twitter_nickname']!,
+                    );
+
+                    if (response['ok'] == false) {
+                      message = response['message'];
+                      setState(() {
+                        failedLogin = 2;
+                      });
+                      return;
+                    }
                     setState(() {
-                      failedLogin = 2;
+                      message = response['message'];
+                      failedLogin = 1;
                     });
-                    return;
-                  } 
-                  setState(() {
-                    message = response['message'];
-                    failedLogin = 1;
-                  });
-
-                  } 
-                 
+                  }
                 },
                 text: const Text('Verify your account'),
                 icon: const Padding(
@@ -187,31 +152,32 @@ class _ArtistVerificationPageState extends State<ArtistVerificationPage> {
                 hoverBackgroundColor: const Color.fromARGB(255, 20, 107, 161),
                 backgroundColor: const Color(0xFF1DA1F2),
                 width: 300,
-                enabled: verify == 'pending' || failedLogin == 1    ? false : true,
+                enabled: verify == 'pending' || failedLogin == 1 ? false : true,
               ),
-              
             ),
             Center(
-              child: Column(children: [
-                if (failedLogin == 1 || verify == 'pending')
-               const Padding(
-                padding: EdgeInsets.only(top: 10),
-                child: Text(
-                  'We get your account, please wait for the approval.Thank you! :)',
-                  style: TextStyle(color: Colors.green),
-                  textAlign: TextAlign.center,
-                ),
+              child: Column(
+                children: [
+                  if (failedLogin == 1 || verify == 'pending')
+                    const Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Text(
+                        'We get your account, please wait for the approval.Thank you! :)',
+                        style: TextStyle(color: Colors.green),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  if (failedLogin == 2)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Text(
+                        message,
+                        style: const TextStyle(color: Colors.red),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                ],
               ),
-            if (failedLogin == 2)
-               Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Text(
-                   message,
-                  style: const TextStyle(color: Colors.red),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              ],),
             )
           ],
         ),

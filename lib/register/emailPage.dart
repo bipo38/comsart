@@ -1,6 +1,6 @@
 import 'package:comsart/auth.dart';
-import 'package:comsart/register/registerOptionPage.dart';
 import 'package:comsart/register/registerStore.dart';
+import 'package:comsart/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
@@ -55,9 +55,10 @@ class _EmailPageState extends State<EmailPage> {
                   ShadButton(
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
-                        var response = await AuthMethods().checkEmail(emailController.text);
+                        var response = await AuthMethods()
+                            .checkEmail(emailController.text);
 
-                        if(response['ok'] == false){
+                        if (response['ok'] == false) {
                           setState(() {
                             emailCheckVerifyMsg = response['message'];
                             isEmailRepeat = true;
@@ -65,10 +66,10 @@ class _EmailPageState extends State<EmailPage> {
                           return;
                         }
                         RegisterStore().setEmail(emailController.text);
-                       setState(() {
+                        setState(() {
                           isEmailRepeat = false;
-                       });
-                        Navigator.pushNamed(context, '/registerOption');
+                        });
+                        routerConfig.go('/name');
                       }
                     },
                     text: const Text('Continue'),
@@ -79,8 +80,11 @@ class _EmailPageState extends State<EmailPage> {
                 ]),
               ),
             ),
-            if(isEmailRepeat)  Text( emailCheckVerifyMsg , style: const TextStyle(color: Colors.red),),
-            
+            if (isEmailRepeat)
+              Text(
+                emailCheckVerifyMsg,
+                style: const TextStyle(color: Colors.red),
+              ),
           ],
         ),
       ),
