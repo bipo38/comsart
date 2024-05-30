@@ -134,4 +134,24 @@ class Paints {
     print(data);
     return {'ok': false, 'data': 'An error occurred'};
   }
+
+  Future<Map<String, dynamic>> deletePaint(String id) async {
+    var url = Uri.parse('$url_api/api/paints/$id');
+
+    var response = await http.delete(url, headers: {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer ${await Store().getToken()}',
+    });
+
+    var data = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      return {
+        'ok': true,
+        'data': data,
+      };
+    }
+
+    return {'ok': false, 'data': 'An error occurred'};
+  }
 }

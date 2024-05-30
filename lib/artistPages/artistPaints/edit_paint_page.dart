@@ -117,7 +117,12 @@ class _EditPaintPageState extends State<EditPaintPage> {
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: const Color(0xFFf8fafc),
-          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: const Icon(LucideIcons.LucideIcons.arrow_left),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
         body: Center(
           child: SingleChildScrollView(
@@ -136,6 +141,86 @@ class _EditPaintPageState extends State<EditPaintPage> {
                 if (paint.isNotEmpty)
                   Column(
                     children: [
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: ShadButton(
+                          onPressed: () {
+                            showShadDialog(
+                              context: context,
+                              builder: (context) => ShadDialog.alert(
+                                constraints: const BoxConstraints(
+                                  maxWidth: 380,
+                                ),
+                                radius: const BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                                border: Border.all(
+                                  color: Color.fromARGB(255, 123, 123, 123),
+                                  width: 1,
+                                ),
+                                title: const Text(
+                                  'Are you absolutely sure?',
+                                  textAlign: TextAlign.left,
+                                ),
+                                description: const Padding(
+                                  padding: EdgeInsets.only(bottom: 8),
+                                  child: Text(
+                                    textAlign: TextAlign.left,
+                                    'This action cannot be undone. This will permanently delete your paint.',
+                                  ),
+                                ),
+                                content: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ShadButton(
+                                      text: const Text('Yes, delete'),
+                                      backgroundColor: const Color(0xFFdd4c4f),
+                                      onPressed: () async {
+                                        var req = await Paints()
+                                            .deletePaint(widget.id);
+
+                                        if (req['ok'] == false) {
+                                          setState(() {
+                                            error = req['data'];
+                                          });
+                                          return;
+                                        }
+
+                                        routerConfig.go(
+                                          '/home/artist',
+                                        );
+                                      },
+                                    ),
+                                    ShadButton.outline(
+                                      text: const Text('No, keep it'),
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(false),
+                                    ),
+                                  ],
+                                ),
+                                actions: [],
+                              ),
+                            );
+                          },
+                          backgroundColor: Color(0xFFdd4c4f),
+                          icon: const Icon(
+                            LucideIcons.LucideIcons.trash,
+                            size: 16,
+                          ),
+                          size: ShadButtonSize.icon,
+                        ),
+                      ),
+                      if (error.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            error,
+                            style: const TextStyle(color: Colors.red),
+                          ),
+                        ),
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 10),
+                      ),
                       GridView.count(
                         crossAxisCount: 2,
                         crossAxisSpacing: 10,
@@ -420,11 +505,6 @@ class _EditPaintPageState extends State<EditPaintPage> {
                           ],
                         ),
                       ),
-                      if (error.isNotEmpty)
-                        Text(
-                          error,
-                          style: const TextStyle(color: Colors.red),
-                        ),
                     ],
                   )
               ],

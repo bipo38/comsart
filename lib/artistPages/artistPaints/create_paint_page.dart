@@ -48,10 +48,14 @@ class _CreatePaintPageState extends State<CreatePaintPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: const Color(0xFFf8fafc),
-          automaticallyImplyLeading: false,
-        ),
+            centerTitle: true,
+            backgroundColor: const Color(0xFFf8fafc),
+            leading: IconButton(
+              icon: const Icon(LucideIcons.LucideIcons.arrow_left),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )),
         bottomNavigationBar: const NavbarArtist(index: 1),
         body: SingleChildScrollView(
             scrollDirection: Axis.vertical,
