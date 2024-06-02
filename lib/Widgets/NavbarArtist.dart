@@ -32,7 +32,7 @@ class NavbarArtist extends StatelessWidget {
       ],
       onTap: (int index) {
         if (index == 0) {
-          routerConfig.go('/home');
+          routerConfig.replace('/home');
         } else if (index == 1) {
           routerConfig.go('/home/artist');
         } else if (index == 2) {

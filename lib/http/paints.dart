@@ -11,16 +11,12 @@ class Paints {
   Future<Map<String, dynamic>> getPaints() async {
     var url = Uri.parse('$url_api/api/paints');
 
-    print('Bearer ${await Store().getToken()}');
-
     var response = await http.get(url, headers: {
       'Accept': 'application/json',
       'Authorization': 'Bearer ${await Store().getToken()}',
     });
 
     var data = jsonDecode(response.body);
-
-    print(data);
 
     if (response.statusCode == 200) {
       return {
@@ -60,6 +56,8 @@ class Paints {
     var response = await request.send();
 
     var data = jsonDecode(await response.stream.bytesToString());
+
+    print(data);
 
     if (response.statusCode == 201) {
       return {
@@ -102,9 +100,6 @@ class Paints {
       String format) async {
     var url = Uri.parse('$url_api/api/paints/$id');
 
-    print(commission);
-    print(format);
-
     var request = http.MultipartRequest('POST', url)
       ..headers['Authorization'] = 'Bearer ${await Store().getToken()}'
       ..headers['Accept'] = 'application/json'
@@ -131,7 +126,6 @@ class Paints {
       };
     }
 
-    print(data);
     return {'ok': false, 'data': 'An error occurred'};
   }
 

@@ -11,6 +11,7 @@ import 'package:comsart/register/profileImagePage.dart';
 import 'package:comsart/register/registerOptionPage.dart';
 import 'package:comsart/register/usernamePage.dart';
 import 'package:comsart/userPages/homePage.dart';
+import 'package:comsart/userPages/paint_home_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -118,7 +119,11 @@ final routerConfig = GoRouter(
                   path: 'verify',
                   builder: (context, state) => const ArtistVerificationPage(),
                 ),
-              ])
+              ]),
+          GoRoute(
+              path: ':id',
+              builder: (context, state) =>
+                  PaintHomeDetailsPage(id: state.pathParameters['id']!)),
         ]),
   ],
 );

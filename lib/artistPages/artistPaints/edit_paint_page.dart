@@ -270,7 +270,7 @@ class _EditPaintPageState extends State<EditPaintPage> {
                                                 _imageFileList[i] = image;
                                               });
 
-                                              Navigator.pop(context);
+                                              routerConfig.pop(context);
                                             },
                                             text: const Text('Edit'),
                                             hoverBackgroundColor:
