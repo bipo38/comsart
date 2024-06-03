@@ -11,6 +11,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 
 class PaintHomeDetailsPage extends StatefulWidget {
   final String id;
@@ -166,16 +167,28 @@ class _PaintHomeDetailsPageState extends State<PaintHomeDetailsPage> {
                       CarouselSlider(
                           items: paint['images'].map<Widget>((image) {
                             return ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(30),
-                                  topRight: Radius.circular(30)),
-                              child: ShadImage(
-                                '${dotenv.env['API_URL']}/${image}',
-                                width: double.infinity,
-                                height: 350,
-                                fit: BoxFit.cover,
-                              ),
-                            );
+                                borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(30),
+                                    topRight: Radius.circular(30)),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    showImageViewer(
+                                        context,
+                                        Image.network(
+                                                '${dotenv.env['API_URL']}/${image}')
+                                            .image,
+                                        swipeDismissible: true,
+                                        doubleTapZoomable: true);
+                                  },
+                                  child: ShadImage(
+                                    '${dotenv.env['API_URL']}/${image}',
+                                    width: double.infinity,
+                                    height: 350,
+                                    fit: BoxFit.cover,
+                                    placeholder:
+                                        const CircularProgressIndicator(),
+                                  ),
+                                ));
                           }).toList(),
                           options: CarouselOptions(
                             height: 350,
