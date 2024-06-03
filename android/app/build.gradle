@@ -1,3 +1,5 @@
+
+
 plugins {
     id "com.android.application"
     id "kotlin-android"
@@ -22,10 +24,16 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+
+
+
+
+
 android {
     namespace "com.example.comsart"
     compileSdk flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    ndkVersion "26.3.11579264"
+
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -45,7 +53,7 @@ android {
         applicationId "com.example.comsart"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

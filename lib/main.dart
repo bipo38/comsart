@@ -3,6 +3,7 @@ import 'package:comsart/register/emailPage.dart';
 import 'package:comsart/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter_lucide/flutter_lucide.dart' as lucide;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -10,6 +11,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 Future main() async {
   await dotenv.load(fileName: ".env");
+
+  Stripe.publishableKey = dotenv.env['STRIPE_PUBLIC_KEY']!;
 
   runApp(const MyApp());
 }
