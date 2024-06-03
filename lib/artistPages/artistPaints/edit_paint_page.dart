@@ -102,7 +102,8 @@ class _EditPaintPageState extends State<EditPaintPage> {
       paint = getPaint['data']['paint'];
       title.text = paint['title'];
       description.text = paint['description'];
-      price.text = paint['price'].toString();
+      price.text =
+          paint['price'].toStringAsFixed(2).toString().replaceAll('.', ',');
       stock.text = paint['stock'].toString();
       commission.text = paint['type_commission'].toString().capitalize();
       format.text = paint['format'].toString().capitalize();
@@ -393,9 +394,14 @@ class _EditPaintPageState extends State<EditPaintPage> {
                                 if (v.isEmpty) {
                                   return 'Price is required';
                                 }
+                                var val = double.parse(v.replaceAll(',', '.'));
 
-                                if (double.parse(v) < 0) {
-                                  return 'Price must be greater than 0';
+                                if (val.isNaN) {
+                                  return 'Price must be a number';
+                                }
+
+                                if (val < 0.50) {
+                                  return 'Price must be greater than 0,50';
                                 }
 
                                 return null;

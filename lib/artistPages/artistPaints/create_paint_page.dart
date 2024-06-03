@@ -261,8 +261,14 @@ class _CreatePaintPageState extends State<CreatePaintPage> {
                                   return 'Price is required';
                                 }
 
-                                if (double.parse(v) < 0) {
-                                  return 'Price must be greater than 0';
+                                var val = double.parse(v.replaceAll(',', '.'));
+
+                                if (val.isNaN) {
+                                  return 'Price must be a number';
+                                }
+
+                                if (val < 0.50) {
+                                  return 'Price must be greater than 0,50';
                                 }
 
                                 return null;

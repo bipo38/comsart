@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -74,6 +75,11 @@ class _HomePageUserState extends State<HomePageUser> {
                   padding:
                       EdgeInsets.only(top: 10, bottom: 20, left: 10, right: 10),
                 ),
+                if (_isLoading)
+                  LoadingAnimationWidget.inkDrop(
+                    color: const Color(0xFFe74c3c),
+                    size: 50,
+                  ),
                 Skeletonizer(
                     enabled: _isLoading,
                     child: Align(
@@ -85,29 +91,18 @@ class _HomePageUserState extends State<HomePageUser> {
                         padding:
                             const EdgeInsets.only(left: 10, right: 10, top: 10),
                         children: [
-                          if (_isLoading) const CircularProgressIndicator(),
                           if (paints.isNotEmpty)
                             for (var paint in paints)
                               Container(
                                 // padding: const EdgeInsets.only(right: 10),
                                 child: Column(
                                   children: [
-                                    GestureDetector(
+                                    InkWell(
                                       onTap: () {
                                         routerConfig.go('/home/${paint['id']}');
                                       },
                                       child: Container(
-                                        // width: 200,
                                         padding: const EdgeInsets.all(10),
-                                        // decoration: const BoxDecoration(
-                                        //   color: Colors.white,
-                                        //   boxShadow: [
-                                        //     BoxShadow(
-                                        //       color: Colors.grey,
-                                        //       blurRadius: 2.0,
-                                        //     ),
-                                        //   ],
-                                        // ),
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
@@ -142,17 +137,6 @@ class _HomePageUserState extends State<HomePageUser> {
                                                 style: ShadTheme.of(context)
                                                     .textTheme
                                                     .p),
-                                            // const Padding(
-                                            //   padding: EdgeInsets.only(top: 5),
-                                            // ),
-                                            // Container(
-                                            //     color: const Color.fromARGB(
-                                            //         111, 124, 124, 124),
-                                            //     height: 1,
-                                            //     width: double.infinity),
-                                            // const Padding(
-                                            //   padding: EdgeInsets.only(top: 5),
-                                            // ),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -160,32 +144,17 @@ class _HomePageUserState extends State<HomePageUser> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                               children: [
-                                                Text('${paint['price']} €',
+                                                Text(
+                                                    '${paint['price'].toStringAsFixed(2).toString().replaceAll('.', ',')} €',
                                                     style: ShadTheme.of(context)
                                                         .textTheme
                                                         .p),
-                                                // ShadButton(
-                                                //   icon: const Icon(
-                                                //     LucideIcons.shoppingCart,
-                                                //     size: 16,
-                                                //   ),
-                                                //   backgroundColor:
-                                                //       const Color(0xFFdd4c4f),
-                                                //   hoverBackgroundColor:
-                                                //       const Color.fromARGB(
-                                                //           255, 221, 105, 107),
-                                                //   size: ShadButtonSize.icon,
-                                                //   onPressed: () {},
-                                                // ),
                                               ],
                                             )
                                           ],
                                         ),
                                       ),
                                     ),
-                                    // const Padding(
-                                    //   padding: EdgeInsets.only(left: 10),
-                                    // ),
                                   ],
                                 ),
                               ),

@@ -202,7 +202,10 @@ class _PaintHomeDetailsPageState extends State<PaintHomeDetailsPage> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    paint['price'].toString(),
+                                    paint['price']
+                                        .toStringAsFixed(2)
+                                        .toString()
+                                        .replaceAll('.', ','),
                                     style: ShadTheme.of(context).textTheme.h2,
                                   ),
                                   const Padding(
