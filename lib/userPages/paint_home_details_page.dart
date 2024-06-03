@@ -10,6 +10,7 @@ import 'package:flutter_lucide/flutter_lucide.dart' as LucideIcons;
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class PaintHomeDetailsPage extends StatefulWidget {
   final String id;
@@ -162,15 +163,35 @@ class _PaintHomeDetailsPageState extends State<PaintHomeDetailsPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(0),
-                        child: ShadImage(
-                          '${dotenv.env['API_URL']}/${paint['images'][0]}',
-                          width: double.infinity,
-                          height: 350,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      CarouselSlider(
+                          items: paint['images'].map<Widget>((image) {
+                            return ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(30),
+                                  topRight: Radius.circular(30)),
+                              child: ShadImage(
+                                '${dotenv.env['API_URL']}/${image}',
+                                width: double.infinity,
+                                height: 350,
+                                fit: BoxFit.cover,
+                              ),
+                            );
+                          }).toList(),
+                          options: CarouselOptions(
+                            height: 350,
+                            aspectRatio: 16 / 9,
+                            viewportFraction: 1,
+                            initialPage: 0,
+                            enableInfiniteScroll: false,
+                            reverse: false,
+                            autoPlay: false,
+                            autoPlayInterval: const Duration(seconds: 3),
+                            autoPlayAnimationDuration:
+                                const Duration(milliseconds: 800),
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            enlargeCenterPage: false,
+                            scrollDirection: Axis.horizontal,
+                          )),
                       const Padding(padding: EdgeInsets.only(top: 10)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
