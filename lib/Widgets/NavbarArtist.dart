@@ -21,10 +21,10 @@ class NavbarArtist extends StatelessWidget {
           icon: Icon(LucideIcons.brush),
           label: 'Commissions',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(LucideIcons.shoppingCart),
-          label: 'Cart',
-        ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(LucideIcons.shoppingCart),
+        //   label: 'Cart',
+        // ),
         BottomNavigationBarItem(
           icon: Icon(LucideIcons.user),
           label: 'Profile',
@@ -37,7 +37,6 @@ class NavbarArtist extends StatelessWidget {
           routerConfig.go('/home/artist');
         } else if (index == 2) {
           return;
-          // Navigator.popAndPushNamed(context, '/artist');
         } else if (index == 3) {
           routerConfig.go('/home/profile');
         }

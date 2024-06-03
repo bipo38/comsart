@@ -89,7 +89,7 @@ class _HomePageUserState extends State<HomePageUser> {
                           if (paints.isNotEmpty)
                             for (var paint in paints)
                               Container(
-                                padding: const EdgeInsets.only(right: 10),
+                                // padding: const EdgeInsets.only(right: 10),
                                 child: Column(
                                   children: [
                                     GestureDetector(
@@ -97,17 +97,17 @@ class _HomePageUserState extends State<HomePageUser> {
                                         routerConfig.go('/home/${paint['id']}');
                                       },
                                       child: Container(
-                                        width: 200,
+                                        // width: 200,
                                         padding: const EdgeInsets.all(10),
-                                        decoration: const BoxDecoration(
-                                          color: Colors.white,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.grey,
-                                              blurRadius: 2.0,
-                                            ),
-                                          ],
-                                        ),
+                                        // decoration: const BoxDecoration(
+                                        //   color: Colors.white,
+                                        //   boxShadow: [
+                                        //     BoxShadow(
+                                        //       color: Colors.grey,
+                                        //       blurRadius: 2.0,
+                                        //     ),
+                                        //   ],
+                                        // ),
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
@@ -142,17 +142,17 @@ class _HomePageUserState extends State<HomePageUser> {
                                                 style: ShadTheme.of(context)
                                                     .textTheme
                                                     .p),
-                                            const Padding(
-                                              padding: EdgeInsets.only(top: 5),
-                                            ),
-                                            Container(
-                                                color: const Color.fromARGB(
-                                                    111, 124, 124, 124),
-                                                height: 1,
-                                                width: double.infinity),
-                                            const Padding(
-                                              padding: EdgeInsets.only(top: 5),
-                                            ),
+                                            // const Padding(
+                                            //   padding: EdgeInsets.only(top: 5),
+                                            // ),
+                                            // Container(
+                                            //     color: const Color.fromARGB(
+                                            //         111, 124, 124, 124),
+                                            //     height: 1,
+                                            //     width: double.infinity),
+                                            // const Padding(
+                                            //   padding: EdgeInsets.only(top: 5),
+                                            // ),
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
@@ -163,20 +163,20 @@ class _HomePageUserState extends State<HomePageUser> {
                                                 Text('${paint['price']} €',
                                                     style: ShadTheme.of(context)
                                                         .textTheme
-                                                        .h4),
-                                                ShadButton(
-                                                  icon: const Icon(
-                                                    LucideIcons.shoppingCart,
-                                                    size: 16,
-                                                  ),
-                                                  backgroundColor:
-                                                      const Color(0xFFdd4c4f),
-                                                  hoverBackgroundColor:
-                                                      const Color.fromARGB(
-                                                          255, 221, 105, 107),
-                                                  size: ShadButtonSize.icon,
-                                                  onPressed: () {},
-                                                ),
+                                                        .p),
+                                                // ShadButton(
+                                                //   icon: const Icon(
+                                                //     LucideIcons.shoppingCart,
+                                                //     size: 16,
+                                                //   ),
+                                                //   backgroundColor:
+                                                //       const Color(0xFFdd4c4f),
+                                                //   hoverBackgroundColor:
+                                                //       const Color.fromARGB(
+                                                //           255, 221, 105, 107),
+                                                //   size: ShadButtonSize.icon,
+                                                //   onPressed: () {},
+                                                // ),
                                               ],
                                             )
                                           ],

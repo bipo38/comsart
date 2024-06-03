@@ -13,6 +13,7 @@ Future main() async {
   await dotenv.load(fileName: ".env");
 
   Stripe.publishableKey = dotenv.env['STRIPE_PUBLIC_KEY']!;
+  await Stripe.instance.applySettings();
 
   runApp(const MyApp());
 }

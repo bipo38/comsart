@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_lucide/flutter_lucide.dart' as LucideIcons;
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -23,6 +24,8 @@ class _PaintHomeDetailsPageState extends State<PaintHomeDetailsPage> {
   var paint = {};
   var _isLoading = true;
   var error = '';
+
+  var _loadPaymentSheet = false;
 
   @override
   void initState() {
@@ -50,6 +53,45 @@ class _PaintHomeDetailsPageState extends State<PaintHomeDetailsPage> {
     });
   }
 
+  Future<void> initPaymentSheet() async {
+    try {
+      // 1. create payment intent on the server
+      final data = await UserHttp().buyPaint(widget.id);
+
+      print(data['data']['paymentIntent']);
+      print(data['data']['ephemeralKey']);
+      print(data['data']['customer']);
+
+      // 2. initialize the payment sheet
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          customFlow: false,
+
+          merchantDisplayName: 'Flutter Stripe Store Demo',
+          paymentIntentClientSecret: data['data']['paymentIntent'],
+
+          customerEphemeralKeySecret: data['data']['ephemeralKey'],
+          customerId: data['data']['customer'],
+          // applePay: const PaymentSheetApplePay(
+          //   merchantCountryCode: 'ES',
+          // ),
+          // googlePay: const PaymentSheetGooglePay(
+          //   merchantCountryCode: 'ES',
+          //   testEnv: true,
+          // ),
+        ),
+      );
+      setState(() {
+        _loadPaymentSheet = true;
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+      rethrow;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,15 +99,6 @@ class _PaintHomeDetailsPageState extends State<PaintHomeDetailsPage> {
         centerTitle: true,
         toolbarHeight: 10,
         backgroundColor: const Color(0xFFf8fafc),
-        // leading: IconButton(
-        //   icon: const Icon(
-        //     LucideIcons.LucideIcons.chevron_left,
-        //     color: Colors.black,
-        //   ),
-        //   onPressed: () {
-        //     routerConfig.go('/home');
-        //   },
-        // ),
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
@@ -78,10 +111,6 @@ class _PaintHomeDetailsPageState extends State<PaintHomeDetailsPage> {
               offset: const Offset(0, -5), // changes position of shadow
             ),
           ],
-          // borderRadius: const BorderRadius.only(
-          //   topLeft: Radius.circular(30),
-          //   topRight: Radius.circular(30),
-          // ),
         ),
         padding: const EdgeInsets.only(top: 10, bottom: 10),
         width: double.infinity,
@@ -101,7 +130,17 @@ class _PaintHomeDetailsPageState extends State<PaintHomeDetailsPage> {
                   fontSize: 16,
                 ),
               ),
-              onPressed: () async {},
+              onPressed: () async {
+                try {
+                  await initPaymentSheet();
+
+                  if (_loadPaymentSheet) {
+                    await Stripe.instance.presentPaymentSheet();
+                  }
+
+                  routerConfig.go('/home/artist');
+                } catch (e) {}
+              },
             ),
           ],
         ),
