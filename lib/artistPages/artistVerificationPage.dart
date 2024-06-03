@@ -53,7 +53,7 @@ class _ArtistVerificationPageState extends State<ArtistVerificationPage> {
         backgroundColor: const Color(0xFFf8fafc),
         // automaticallyImplyLeading: false
       ),
-      bottomNavigationBar: const NavbarArtist(index: 3),
+      bottomNavigationBar: const NavbarArtist(index: 2),
       body: Container(
         padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
         child: Column(

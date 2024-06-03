@@ -60,7 +60,7 @@ class _ArtistProfilePageState extends State<ArtistProfilePage> {
           centerTitle: true,
           backgroundColor: const Color(0xFFf8fafc),
           automaticallyImplyLeading: false),
-      bottomNavigationBar: const NavbarArtist(index: 3),
+      bottomNavigationBar: const NavbarArtist(index: 2),
       body: Container(
           padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
           child: Skeletonizer(
