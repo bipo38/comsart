@@ -48,6 +48,7 @@ class _CreatePaintPageState extends State<CreatePaintPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+            scrolledUnderElevation: 0.0,
             centerTitle: true,
             backgroundColor: const Color(0xFFf8fafc),
             leading: IconButton(

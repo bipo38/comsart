@@ -101,10 +101,11 @@ class _PaintHomeDetailsPageState extends State<PaintHomeDetailsPage> {
         centerTitle: true,
         toolbarHeight: 10,
         backgroundColor: const Color(0xFFf8fafc),
+        scrolledUnderElevation: 0.0,
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: const Color(0xFFf8fafc),
           boxShadow: [
             BoxShadow(
               color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.1),
@@ -114,37 +115,32 @@ class _PaintHomeDetailsPageState extends State<PaintHomeDetailsPage> {
             ),
           ],
         ),
-        padding: const EdgeInsets.only(top: 10, bottom: 10),
+        padding: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
         width: double.infinity,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ShadButton(
-              width: 300,
-              backgroundColor: const Color(0xFFdd4c4f),
-              hoverBackgroundColor: const Color.fromARGB(255, 166, 62, 64),
-              height: 50,
-              decoration: const ShadDecoration(),
-              text: const Text(
-                'Buy',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
-              ),
-              onPressed: () async {
-                try {
-                  await initPaymentSheet();
-
-                  if (_loadPaymentSheet) {
-                    await Stripe.instance.presentPaymentSheet();
-                  }
-
-                  routerConfig.go('/home/artist');
-                } catch (e) {}
-              },
+        child: ShadButton(
+          width: double.infinity,
+          backgroundColor: const Color(0xFFdd4c4f),
+          hoverBackgroundColor: const Color.fromARGB(255, 166, 62, 64),
+          height: 50,
+          decoration: const ShadDecoration(),
+          text: const Text(
+            'Buy',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
             ),
-          ],
+          ),
+          onPressed: () async {
+            try {
+              await initPaymentSheet();
+
+              if (_loadPaymentSheet) {
+                await Stripe.instance.presentPaymentSheet();
+              }
+
+              routerConfig.go('/home/artist');
+            } catch (e) {}
+          },
         ),
       ),
       body: SingleChildScrollView(

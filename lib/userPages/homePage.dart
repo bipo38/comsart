@@ -55,7 +55,11 @@ class _HomePageUserState extends State<HomePageUser> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            // title: const Text('Comsart'),
+            title: Text(
+              'Comsart',
+              style: ShadTheme.of(context).textTheme.h2,
+            ),
+            scrolledUnderElevation: 0.0,
             centerTitle: true,
             backgroundColor: const Color(0xFFf8fafc),
             automaticallyImplyLeading: false),
@@ -64,105 +68,83 @@ class _HomePageUserState extends State<HomePageUser> {
         ), // Substitute in future for NavbarUser()
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          child: Container(
-            child: Column(
-              children: [
-                Text(
-                  'Comsart',
-                  style: ShadTheme.of(context).textTheme.h2,
+          child: Column(
+            children: [
+              const Padding(
+                padding:
+                    EdgeInsets.only(top: 10, bottom: 20, left: 10, right: 10),
+              ),
+              if (_isLoading)
+                LoadingAnimationWidget.inkDrop(
+                  color: const Color(0xFFe74c3c),
+                  size: 50,
                 ),
-                const Padding(
-                  padding:
-                      EdgeInsets.only(top: 10, bottom: 20, left: 10, right: 10),
-                ),
-                if (_isLoading)
-                  LoadingAnimationWidget.inkDrop(
-                    color: const Color(0xFFe74c3c),
-                    size: 50,
-                  ),
-                Skeletonizer(
-                    enabled: _isLoading,
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: GridView.count(
-                        crossAxisCount: 2,
-                        shrinkWrap: true,
-                        childAspectRatio: 0.65,
-                        padding:
-                            const EdgeInsets.only(left: 10, right: 10, top: 10),
+              GridView.count(
+                crossAxisCount: 2,
+                shrinkWrap: true,
+                physics: const ScrollPhysics(),
+                childAspectRatio: 0.75,
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 0),
+                children: [
+                  if (paints.isNotEmpty)
+                    for (var paint in paints)
+                      Column(
                         children: [
-                          if (paints.isNotEmpty)
-                            for (var paint in paints)
-                              Container(
-                                // padding: const EdgeInsets.only(right: 10),
-                                child: Column(
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        routerConfig.go('/home/${paint['id']}');
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.all(10),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              child: ShadImage(
-                                                '${dotenv.env['API_URL']}/${paint['images'][0]}',
-                                                // width: 150,
-                                                width: double.infinity,
-                                                fit: BoxFit.cover,
-                                                height: 130,
-                                              ),
-                                            ),
-                                            const Padding(
-                                              padding: EdgeInsets.only(top: 10),
-                                            ),
-                                            Text(paint['title'],
-                                                style: ShadTheme.of(context)
-                                                    .textTheme
-                                                    .h4),
-                                            const Padding(
-                                              padding: EdgeInsets.only(top: 0),
-                                            ),
-                                            Text(
-                                                paint['format']
-                                                    .toString()
-                                                    .capitalize(),
-                                                style: ShadTheme.of(context)
-                                                    .textTheme
-                                                    .p),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                    '${paint['price'].toStringAsFixed(2).toString().replaceAll('.', ',')} €',
-                                                    style: ShadTheme.of(context)
-                                                        .textTheme
-                                                        .p),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
+                          InkWell(
+                            onTap: () {
+                              routerConfig.go('/home/${paint['id']}');
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: ShadImage(
+                                      '${dotenv.env['API_URL']}/${paint['images'][0]}',
+                                      // width: 150,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                      height: 130,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.only(top: 10),
+                                  ),
+                                  Text(paint['title'],
+                                      style:
+                                          ShadTheme.of(context).textTheme.h4),
+                                  const Padding(
+                                    padding: EdgeInsets.only(top: 0),
+                                  ),
+                                  Text(paint['format'].toString().capitalize(),
+                                      style: ShadTheme.of(context)
+                                          .textTheme
+                                          .muted),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                          '${paint['price'].toStringAsFixed(2).toString().replaceAll('.', ',')} €',
+                                          style: ShadTheme.of(context)
+                                              .textTheme
+                                              .p),
+                                    ],
+                                  )
+                                ],
                               ),
+                            ),
+                          ),
                         ],
                       ),
-                    )),
-              ],
-            ),
+                ],
+              ),
+            ],
           ),
         ));
   }

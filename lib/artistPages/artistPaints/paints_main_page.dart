@@ -49,6 +49,7 @@ class _PaintsMainPageState extends State<PaintsMainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          scrolledUnderElevation: 0.0,
           centerTitle: true,
           backgroundColor: const Color(0xFFf8fafc),
           automaticallyImplyLeading: false,
@@ -67,7 +68,7 @@ class _PaintsMainPageState extends State<PaintsMainPage> {
                     children: [
                       Container(
                         padding:
-                            const EdgeInsets.only(left: 10, right: 10, top: 10),
+                            const EdgeInsets.only(left: 10, right: 10, top: 0),
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'Paints',
@@ -78,7 +79,7 @@ class _PaintsMainPageState extends State<PaintsMainPage> {
                       const Padding(padding: EdgeInsets.only(top: 10)),
                       Container(
                           padding: const EdgeInsets.only(
-                              left: 10, right: 10, top: 40),
+                              left: 10, right: 10, top: 0),
                           child: Column(
                             children: [
                               Align(
