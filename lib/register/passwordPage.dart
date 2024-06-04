@@ -34,15 +34,25 @@ class _PasswordPageState extends State<PasswordPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Image(image: AssetImage('assets/img/one.png'), height: 200),
+            const ShadImage(
+              'assets/img/pass.png',
+              width: 150,
+              height: 150,
+              fit: BoxFit.contain,
+              alignment: Alignment.topLeft,
+            ),
             ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 320),
+              constraints: const BoxConstraints(maxWidth: 360),
               child: ShadForm(
                 key: formKey,
                 child: Column(children: [
                   ShadInputFormField(
                     controller: passwordController,
-                    label: const Text('Password'),
+                    label: Text(
+                      'Password',
+                      style: ShadTheme.of(context).textTheme.h3,
+                    ),
+                    placeholder: const Text('Enter your password'),
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
                     validator: (v) {
@@ -54,7 +64,7 @@ class _PasswordPageState extends State<PasswordPage> {
                   ),
                   ShadInputFormField(
                     controller: passwordConfirmationController,
-                    label: const Text('Confirm Password'),
+                    placeholder: const Text('Enter your password again'),
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
                     validator: (v) {
@@ -92,7 +102,7 @@ class _PasswordPageState extends State<PasswordPage> {
                     text: const Text('Sign Up'),
                     hoverBackgroundColor: const Color(0xFFe74c3c),
                     backgroundColor: const Color(0xFFdd4c4f),
-                    width: 300,
+                    width: double.infinity,
                     icon: const Padding(
                       padding: EdgeInsets.only(right: 10),
                       child: Icon(

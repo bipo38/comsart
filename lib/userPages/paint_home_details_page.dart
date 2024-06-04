@@ -115,7 +115,8 @@ class _PaintHomeDetailsPageState extends State<PaintHomeDetailsPage> {
             ),
           ],
         ),
-        padding: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
+        padding:
+            const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
         width: double.infinity,
         child: ShadButton(
           width: double.infinity,
@@ -158,7 +159,8 @@ class _PaintHomeDetailsPageState extends State<PaintHomeDetailsPage> {
                   ),
                 if (paint.isNotEmpty)
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       CarouselSlider(
                           items: paint['images'].map<Widget>((image) {
@@ -213,14 +215,14 @@ class _PaintHomeDetailsPageState extends State<PaintHomeDetailsPage> {
                               style: ShadTheme.of(context).textTheme.h2,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 20),
-                            child: Text(
-                              paint['format'].toString().capitalize(),
-                              style: ShadTheme.of(context).textTheme.muted,
-                            ),
-                          ),
                         ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, top: 10),
+                        child: Text(
+                          paint['format'].toString().capitalize(),
+                          style: ShadTheme.of(context).textTheme.muted,
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -236,7 +238,8 @@ class _PaintHomeDetailsPageState extends State<PaintHomeDetailsPage> {
                                         .toStringAsFixed(2)
                                         .toString()
                                         .replaceAll('.', ','),
-                                    style: ShadTheme.of(context).textTheme.h2,
+                                    style:
+                                        ShadTheme.of(context).textTheme.large,
                                   ),
                                   const Padding(
                                       padding: EdgeInsets.only(left: 1)),
@@ -249,7 +252,7 @@ class _PaintHomeDetailsPageState extends State<PaintHomeDetailsPage> {
                               )),
                           Container(
                             padding: const EdgeInsets.only(
-                                right: 20, top: 10, bottom: 0),
+                                right: 20, top: 20, bottom: 0),
                             child: Text(
                               'Stock: ${paint['stock']}',
                               style: ShadTheme.of(context).textTheme.large,

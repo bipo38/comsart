@@ -54,37 +54,55 @@ final routerConfig = GoRouter(
       // },
     ),
 
-    //Register
     GoRoute(
-        path: '/email',
-        pageBuilder: (context, state) => buildPageWithDefaultTransition(
-            context: context, state: state, child: const EmailPage())),
-    GoRoute(
-        path: '/registerOption',
-        // builder: (context, state) => const RegisterOptionScreen(),
-        pageBuilder: (context, state) => buildPageWithDefaultTransition(
-            context: context,
-            state: state,
-            child: const RegisterOptionScreen())),
-
-    GoRoute(
-        path: '/name',
-        // builder: (context, state) => const UsernamePage(),
-        pageBuilder: (context, state) => buildPageWithDefaultTransition(
-            context: context, state: state, child: const UsernamePage())),
-
-    GoRoute(
-      path: '/profileImage',
+      path: '/register',
       pageBuilder: (context, state) => buildPageWithDefaultTransition(
-          context: context, state: state, child: const ProfileImagePage()),
-      // builder: (context, state) => const ProfileImagePage(),
-    ),
-
-    GoRoute(
-      path: '/password',
-      // builder: (context, state) => const PasswordPage(),
-      pageBuilder: (context, state) => buildPageWithDefaultTransition(
-          context: context, state: state, child: const PasswordPage()),
+          context: context, state: state, child: const HomePage()),
+      routes: [
+        GoRoute(
+          path: 'email',
+          pageBuilder: (context, state) => buildPageWithDefaultTransition(
+              context: context, state: state, child: const EmailPage()),
+          routes: [
+            GoRoute(
+                path: 'registerOption',
+                pageBuilder: (context, state) => buildPageWithDefaultTransition(
+                    context: context,
+                    state: state,
+                    child: const RegisterOptionScreen()),
+                routes: [
+                  GoRoute(
+                    path: 'name',
+                    pageBuilder: (context, state) =>
+                        buildPageWithDefaultTransition(
+                            context: context,
+                            state: state,
+                            child: const UsernamePage()),
+                    routes: [
+                      GoRoute(
+                        path: 'profileImage',
+                        pageBuilder: (context, state) =>
+                            buildPageWithDefaultTransition(
+                                context: context,
+                                state: state,
+                                child: const ProfileImagePage()),
+                        routes: [
+                          GoRoute(
+                            path: 'password',
+                            pageBuilder: (context, state) =>
+                                buildPageWithDefaultTransition(
+                                    context: context,
+                                    state: state,
+                                    child: const PasswordPage()),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ]),
+          ],
+        ),
+      ],
     ),
 
     GoRoute(

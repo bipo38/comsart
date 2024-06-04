@@ -142,94 +142,86 @@ class _HomePageUserState extends State<HomePageUser> {
                                           onPressed: () {
                                             showShadDialog(
                                                 context: context,
-                                                builder: (context) =>
-                                                    ShadDialog(
-                                                      content: Container(
-                                                        width: 300,
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
-                                                              child: ShadImage(
-                                                                '${dotenv.env['API_URL']}/${paint['images'][0]}',
-                                                                width: double
-                                                                    .infinity,
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                                height: 200,
-                                                              ),
+                                                builder:
+                                                    (context) => ShadDialog(
+                                                          content: Container(
+                                                            width: 300,
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                ClipRRect(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                  child:
+                                                                      ShadImage(
+                                                                    '${dotenv.env['API_URL']}/${paint['images'][0]}',
+                                                                    width: double
+                                                                        .infinity,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                    height: 200,
+                                                                  ),
+                                                                ),
+                                                                const Padding(
+                                                                    padding: EdgeInsets
+                                                                        .only(
+                                                                            top:
+                                                                                10)),
+                                                                Row(
+                                                                  children: [
+                                                                    Text(
+                                                                      paint[
+                                                                          'title'],
+                                                                      style: ShadTheme.of(
+                                                                              context)
+                                                                          .textTheme
+                                                                          .h3,
+                                                                    ),
+                                                                    const Padding(
+                                                                        padding:
+                                                                            EdgeInsets.only(left: 5)),
+                                                                    Text(
+                                                                      '(${paint['artist_name']})',
+                                                                      style: ShadTheme.of(
+                                                                              context)
+                                                                          .textTheme
+                                                                          .small,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                Text(
+                                                                  paint[
+                                                                      'description'],
+                                                                  style: ShadTheme.of(
+                                                                          context)
+                                                                      .textTheme
+                                                                      .p,
+                                                                ),
+                                                                Text(
+                                                                  'Format: ${paint['format'].toString().capitalize()}',
+                                                                  style: ShadTheme.of(
+                                                                          context)
+                                                                      .textTheme
+                                                                      .muted,
+                                                                ),
+                                                                Text(
+                                                                  'Price: ${paint['price'].toStringAsFixed(2).toString().replaceAll('.', ',')} €',
+                                                                  style: ShadTheme.of(
+                                                                          context)
+                                                                      .textTheme
+                                                                      .p,
+                                                                ),
+                                                              ],
                                                             ),
-                                                            const Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        top:
-                                                                            10)),
-
-                                                            Text(
-                                                              paint['title'],
-                                                              style: ShadTheme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .h2,
-                                                            ),
-                                                            Text(
-                                                              paint[
-                                                                  'description'],
-                                                              style: ShadTheme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .p,
-                                                            ),
-
-                                                            // Expanded(
-                                                            //   child: Flexible(
-                                                            //     child:
-                                                            //         Container(
-                                                            //       width: double
-                                                            //           .infinity,
-                                                            //       padding:
-                                                            //           const EdgeInsets
-                                                            //               .only(
-                                                            //               top:
-                                                            //                   10),
-                                                            //       child: Text(
-                                                            //         paint[
-                                                            //             'description'],
-                                                            //         style: ShadTheme.of(
-                                                            //                 context)
-                                                            //             .textTheme
-                                                            //             .p,
-                                                            //       ),
-                                                            //     ),
-                                                            //   ),
-                                                            // ),
-                                                            Text(
-                                                              'Format: ${paint['format'].toString().capitalize()}',
-                                                              style: ShadTheme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .muted,
-                                                            ),
-                                                            Text(
-                                                              'Price: ${paint['price'].toStringAsFixed(2).toString().replaceAll('.', ',')} €',
-                                                              style: ShadTheme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .p,
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ));
+                                                          ),
+                                                        ));
                                           },
                                           icon: const Icon(
                                               LucideIcons.LucideIcons.eye)),

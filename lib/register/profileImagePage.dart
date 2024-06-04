@@ -53,7 +53,7 @@ class _ProfileImagePageState extends State<ProfileImagePage> {
             ShadForm(
                 child: Column(children: [
               ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 320),
+                constraints: const BoxConstraints(maxWidth: 360),
                 child: Column(children: [
                   if (_image != null)
                     ClipRRect(
@@ -65,7 +65,14 @@ class _ProfileImagePageState extends State<ProfileImagePage> {
                         fit: BoxFit.cover,
                       ),
                     ),
-                  if (_image == null) const Text('No image selected.'),
+                  if (_image == null)
+                    const ShadImage(
+                      'assets/img/profile.png',
+                      width: 150,
+                      height: 150,
+                      fit: BoxFit.contain,
+                      alignment: Alignment.topLeft,
+                    ),
                   const Padding(padding: EdgeInsets.only(bottom: 10)),
                   ShadButton.outline(
                     onPressed: _pickImage,
@@ -76,7 +83,7 @@ class _ProfileImagePageState extends State<ProfileImagePage> {
                         width: 1,
                       ),
                     ),
-                    width: 300,
+                    width: double.infinity,
                     icon: const Padding(
                       padding: EdgeInsets.only(right: 10),
                       child: Icon(
@@ -101,12 +108,13 @@ class _ProfileImagePageState extends State<ProfileImagePage> {
 
                       RegisterStore().setProfileImage(_image!);
 
-                      routerConfig.go('/password');
+                      routerConfig.go(
+                          '/register/email/registerOption/name/profileImage/password');
                     },
                     text: const Text('Continue'),
                     hoverBackgroundColor: const Color(0xFFe74c3c),
                     backgroundColor: const Color(0xFFdd4c4f),
-                    width: 300,
+                    width: double.infinity,
                   ),
                 ]),
               ),

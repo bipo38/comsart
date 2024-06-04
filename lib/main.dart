@@ -119,11 +119,7 @@ class _HomePageState extends State<HomePage> {
                       padding: const EdgeInsets.all(0),
                       text: const Text('Sign up.'),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const EmailPage()),
-                        );
+                        routerConfig.go('/register/email');
                       },
                     ),
                   ],

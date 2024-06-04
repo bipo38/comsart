@@ -32,15 +32,25 @@ class _UsernamePageState extends State<UsernamePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Image(image: AssetImage('assets/img/one.png'), height: 200),
+            const ShadImage(
+              'assets/img/user1.png',
+              width: 150,
+              height: 150,
+              fit: BoxFit.contain,
+              alignment: Alignment.topLeft,
+            ),
             ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 320),
+              constraints: const BoxConstraints(maxWidth: 360),
               child: ShadForm(
                 key: formKey,
                 child: Column(children: [
                   ShadInputFormField(
                     controller: usernameController,
-                    label: const Text('Username'),
+                    label: Text(
+                      'Username',
+                      style: ShadTheme.of(context).textTheme.h3,
+                    ),
+                    placeholder: const Text('Enter your username'),
                     keyboardType: TextInputType.emailAddress,
                     validator: (v) {
                       if (v.isEmpty) {
@@ -53,13 +63,14 @@ class _UsernamePageState extends State<UsernamePage> {
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         RegisterStore().setUsername(usernameController.text);
-                        routerConfig.go('/profileImage');
+                        routerConfig.go(
+                            '/register/email/registerOption/name/profileImage');
                       }
                     },
                     text: const Text('Continue'),
                     hoverBackgroundColor: const Color(0xFFe74c3c),
                     backgroundColor: const Color(0xFFdd4c4f),
-                    width: 300,
+                    width: 360,
                   ),
                 ]),
               ),

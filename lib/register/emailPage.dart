@@ -35,15 +35,25 @@ class _EmailPageState extends State<EmailPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Image(image: AssetImage('assets/img/one.png'), height: 200),
+            const ShadImage(
+              'assets/img/email3.png',
+              width: 150,
+              height: 150,
+              fit: BoxFit.contain,
+              alignment: Alignment.topLeft,
+            ),
             ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 320),
+              constraints: const BoxConstraints(maxWidth: 360),
               child: ShadForm(
                 key: formKey,
                 child: Column(children: [
                   ShadInputFormField(
                     controller: emailController,
-                    label: const Text('Email'),
+                    label: Text(
+                      'Email',
+                      style: ShadTheme.of(context).textTheme.h3,
+                    ),
+                    placeholder: const Text('Enter your email'),
                     keyboardType: TextInputType.emailAddress,
                     validator: (v) {
                       if (v.isEmpty || !v.contains('@') || !v.contains('.')) {
@@ -69,13 +79,13 @@ class _EmailPageState extends State<EmailPage> {
                         setState(() {
                           isEmailRepeat = false;
                         });
-                        routerConfig.go('/name');
+                        routerConfig.go('/register/email/registerOption');
                       }
                     },
                     text: const Text('Continue'),
                     hoverBackgroundColor: const Color(0xFFe74c3c),
                     backgroundColor: const Color(0xFFdd4c4f),
-                    width: 300,
+                    width: 360,
                   ),
                 ]),
               ),
